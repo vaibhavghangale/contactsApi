@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "d367ecdc-a01f-4d68-b7ad-32a7a6e87657",
+		"name": "contact",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "allContacts",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var randomNumber = getRandomInt(10000, 11000);\r",
+							"\r",
+							" function getRandomInt(min, max) {\r",
+							" return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+							" }\r",
+							" postman.setEnvironmentVariable(\"name\", \"jyoti_\"+randomNumber);\r",
+							" postman.setEnvironmentVariable(\"email\", \"jyotighangale\"+getRandomInt(10,100)+\"@gmail.com\");\r",
+							"postman.setEnvironmentVariable(\"phone\", getRandomInt(9974901531, 9977665544));\r",
+							"postman.setEnvironmentVariable(\"photo\", \"assets/no-image.svg\"+randomNumber);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code is 200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/server-1.0-SNAPSHOT/webapi/Contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"server-1.0-SNAPSHOT",
+						"webapi",
+						"Contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateNewContacts",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//tests[\"Status code is 201\"] = responseCode.code === 201;\r",
+							"pm.test(\"Status code  200\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"tests[\"Has Name\"] = responseBody.has(\"name\");\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"Does Contacts exists\"] = jsonData.name === postman.getEnvironmentVariable(\"name\");\r",
+							"pm.environment.set(\"id\",jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n    \"name\": \"{{name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"phone\": \"{{phone}}\",\r\n    \"photo\":\"{{photo}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/server-1.0-SNAPSHOT/webapi/Contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"server-1.0-SNAPSHOT",
+						"webapi",
+						"Contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getdata",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var randomNumber = getRandomInt(10000, 11000);\r",
+							"\r",
+							" function getRandomInt(min, max) {\r",
+							" return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+							" }\r",
+							" postman.setEnvironmentVariable(\"name\", \"Tukaram_\"+randomNumber);\r",
+							" postman.setEnvironmentVariable(\"email\", \"tukaramghangale\"+getRandomInt(10,100)+\"@gmail.com\");\r",
+							"postman.setEnvironmentVariable(\"phone\", getRandomInt(9974901531, 9977665544));\r",
+							"postman.setEnvironmentVariable(\"photo\", \"assets/no-image.svg\"+randomNumber);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//tests[\"Status code is 201\"] = responseCode.code === 201;\r",
+							"pm.test(\"Status code  201\",function(){\r",
+							"    pm.response.to.have.status(200)\r",
+							"})\r",
+							"tests[\"Has Name\"] = responseBody.has(\"name\");\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"Does Contacts exists\"] = jsonData.name === postman.getEnvironmentVariable(\"name\");\r",
+							"pm.environment.set(\"id\",jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n    \"name\": \"{{name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"phone\": \"{{phone}}\",\r\n    \"photo\":\"{{photo}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/server-1.0-SNAPSHOT/webapi/Contacts/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"server-1.0-SNAPSHOT",
+						"webapi",
+						"Contacts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
